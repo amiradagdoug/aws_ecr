@@ -5,7 +5,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 153386709997.dkr.ecr.eu-central-1.amazonaws.com 
+      - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 153386709997.dkr.ecr.eu-central-1.amazonaws.com
       - REPOSITORY_URI=153386709997.dkr.ecr.eu-central-1.amazonaws.com/my-pipeline
       # - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
@@ -22,6 +22,6 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"my-pipeline-image","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"my-pipeline","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
